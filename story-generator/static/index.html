@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Children's Story Generator</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <main class="wrap">
+    <h1>📖 AI Children's Story Generator</h1>
+    <p class="sub">Type a name, pick a mood — get a bedtime story in seconds.</p>
+
+    <form id="storyForm" novalidate>
+      <div class="grid">
+        <label>Child's name
+          <input id="childName" name="child_name" type="text" maxlength="40" placeholder="e.g. Aisyah" required />
+        </label>
+        <label>Age
+          <select id="age" name="age">
+            <option value="4">4</option><option value="5">5</option><option value="6">6</option>
+            <option value="7">7</option><option value="8">8</option><option value="9">9</option>
+            <option value="10">10</option><option value="11">11</option><option value="12">12</option>
+          </select>
+        </label>
+        <label>Mood
+          <select id="mood" name="mood">
+            <option value="happy">😊 Happy</option>
+            <option value="brave">🦁 Brave</option>
+            <option value="curious">🔍 Curious</option>
+            <option value="sleepy">😴 Sleepy</option>
+            <option value="silly">🤪 Silly</option>
+            <option value="calm">🕊️ Calm</option>
+          </select>
+        </label>
+        <label>Companion character
+          <input id="character" name="character" type="text" maxlength="30" placeholder="e.g. a purple dragon" />
+        </label>
+        <label>Length
+          <select id="length" name="length">
+            <option value="short">Short</option>
+            <option value="medium" selected>Medium</option>
+            <option value="long">Long</option>
+          </select>
+        </label>
+        <label>Lesson (optional)
+          <input id="moral" name="moral" type="text" maxlength="80" placeholder="e.g. kindness matters" />
+        </label>
+      </div>
+      <div class="actions">
+        <button id="generateBtn" type="submit">✨ Generate story</button>
+        <button id="regenerateBtn" type="button" class="ghost" hidden>🔁 Regenerate</button>
+        <span id="errorBox" class="error" role="alert" hidden></span>
+      </div>
+    </form>
+
+    <div id="storyView" class="story" hidden>
+      <h2 id="storyTitle"></h2>
+      <p id="storyMeta" class="meta"></p>
+      <div id="sections"></div>
+      <p id="moralLine" class="moral"></p>
+    </div>
+
+    <div id="loading" class="loading" hidden>
+      <span class="spinner" aria-label="Generating story"></span> Weaving the story…
+    </div>
+
+    <section id="history" hidden>
+      <h3>Recent stories</h3>
+      <ul id="historyList"></ul>
+    </section>
+  </main>
+  <script src="/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+{
+  "description": "Scenario-driven test data for the AI Children's Story Generator API tests.",
+  "valid_scenarios": [
+    { "child_name": "Aisyah", "age": 5, "mood": "happy", "length": "short" },
+    { "child_name": "Bima", "age": 11, "mood": "brave", "character": "a brave kitten", "length": "long" },
+    { "child_name": "Kiara", "age": 2, "mood": "sleepy", "moral": "rest is important", "length": "medium" }
+  ],
+  "invalid_cases": [
+    { "label": "age below minimum", "payload": { "child_name": "Aisyah", "age": 1, "mood": "happy" }, "expect": 422 },
+    { "label": "age above maximum", "payload": { "child_name": "Aisyah", "age": 13, "mood": "happy" }, "expect": 422 },
+    { "label": "empty name", "payload": { "child_name": "", "age": 5, "mood": "happy" }, "expect": 422 },
+    { "label": "name too long", "payload": { "child_name": "NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN", "age": 5, "mood": "happy" }, "expect": 422 },
+    { "label": "unknown mood", "payload": { "child_name": "Aisyah", "age": 5, "mood": "angry" }, "expect": 422 },
+    { "label": "unknown length", "payload": { "child_name": "Aisyah", "age": 5, "mood": "happy", "length": "gigantic" }, "expect": 422 },
+    { "label": "missing mood", "payload": { "child_name": "Aisyah", "age": 5 }, "expect": 422 }
+  ]
+}

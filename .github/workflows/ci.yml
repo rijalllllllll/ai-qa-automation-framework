@@ -1,0 +1,77 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  api-tests:
+    name: API contract tests (pytest)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: pip install -r story-generator/requirements.txt
+      - name: Start SUT
+        working-directory: story-generator
+        run: nohup uvicorn app:app --port 8901 > /tmp/sut.log 2>&1 &
+      - name: Wait for SUT readiness
+        run: |
+          for i in $(seq 1 30); do
+            curl -sf http://localhost:8901/healthz && break || sleep 1;
+          done
+          curl -sf http://localhost:8901/healthz
+      - name: Run API tests
+        working-directory: story-generator
+        env:
+          BASE_URL: http://localhost:8901
+        run: pytest qa-tests -q
+      - name: Show SUT log on failure
+        if: failure()
+        run: tail -40 /tmp/sut.log
+
+  e2e-tests:
+    name: E2E tests (Playwright)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: pip install -r story-generator/requirements.txt
+      - name: Start SUT
+        working-directory: story-generator
+        run: nohup uvicorn app:app --port 8901 > /tmp/sut.log 2>&1 &
+      - name: Wait for SUT readiness
+        run: |
+          for i in $(seq 1 30); do
+            curl -sf http://localhost:8901/healthz && break || sleep 1;
+          done
+          curl -sf http://localhost:8901/healthz
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: qa-framework/package-lock.json
+      - name: Install test framework
+        working-directory: qa-framework
+        run: npm ci
+      - name: Install Playwright browsers
+        working-directory: qa-framework
+        run: npx playwright install --with-deps chromium
+      - name: Run E2E tests
+        working-directory: qa-framework
+        env:
+          BASE_URL: http://localhost:8901
+        run: npx playwright test
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: qa-framework/playwright-report
+          retention-days: 7

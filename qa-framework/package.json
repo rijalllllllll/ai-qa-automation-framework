@@ -1,0 +1,14 @@
+{
+  "name": "qa-framework",
+  "version": "1.0.0",
+  "description": "Playwright E2E + API test framework for the AI Children's Story Generator (SUT)",
+  "private": true,
+  "scripts": {
+    "test:e2e": "playwright test",
+    "test:api": "cd ../story-generator && pytest qa-tests -q",
+    "test": "npm run test:e2e"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0"
+  }
+}

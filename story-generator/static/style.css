@@ -1,0 +1,44 @@
+:root {
+  --bg: #fdf6ec; --card: #fff; --ink: #3d2b1f; --accent: #7c3aed; --ok: #16a34a;
+  --err: #dc2626; --line: #eadfcb;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body {
+  margin: 0; font-family: -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg); color: var(--ink); line-height: 1.5;
+}
+.wrap { max-width: 720px; margin: 0 auto; padding: 32px 20px 64px; }
+h1 { font-size: 26px; margin-bottom: 4px; }
+.sub { color: #8a7a63; margin-top: 0; }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 18px 0; }
+label { font-size: 13px; font-weight: 600; display: flex; flex-direction: column; gap: 4px; }
+input, select {
+  padding: 9px 10px; border: 1px solid var(--line); border-radius: 8px; font-size: 14px; background: #fff;
+}
+input:focus, select:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+.actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+button {
+  border: 0; border-radius: 8px; padding: 10px 18px; font-size: 14px; font-weight: 600;
+  cursor: pointer; background: var(--accent); color: #fff;
+}
+button:disabled { opacity: .55; cursor: not-allowed; }
+button.ghost { background: transparent; color: var(--ink); border: 1px solid var(--line); }
+.error { color: var(--err); font-size: 13px; font-weight: 600; }
+.story {
+  background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+  padding: 22px 26px; margin-top: 22px;
+}
+.story h2 { margin: 0 0 2px; }
+.meta { color: #8a7a63; font-size: 12px; margin: 0 0 12px; }
+.moral { font-weight: 600; color: var(--ok); margin-bottom: 0; }
+.loading { display: flex; gap: 10px; align-items: center; margin-top: 18px; color: #8a7a63; font-size: 14px; }
+.spinner {
+  width: 18px; height: 18px; border: 3px solid var(--line); border-top-color: var(--accent);
+  border-radius: 50%; animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+#history { margin-top: 26px; }
+#historyList li { margin-bottom: 4px; }
+.muted { color: #aaa089; font-size: 12px; }
+@media (max-width: 560px) { .grid { grid-template-columns: 1fr; } }
